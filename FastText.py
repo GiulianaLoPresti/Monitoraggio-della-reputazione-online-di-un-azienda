@@ -107,6 +107,8 @@ def load_and_predict(input_path, output_path):
     results.to_csv(output_path)
     print(f"Risultati salvati in: {output_path}")
 
+# Monitoraggio
+
 
 def test_reputation_system():
     # Testiamo solo 5 tweet per fare un controllo rapido di "salute"
@@ -115,8 +117,14 @@ def test_reputation_system():
 
     assert acc >= 0  # Verifichiamo che la funzione restituisca un numero valido
 
-# Esecuzione del test, da terminale: pytest FastText.py
 
+def log_performance(accuracy, f1):
+    # Salva le performance in un file CSV per monitorare il calo nel tempo
+    with open("monitoring_log.csv", "a") as f:
+        f.write(f"{pd.Timestamp.now()},{accuracy},{f1}\n")
+
+
+# Esecuzione del test, da terminale: pytest
 
 # 1. Controlla lo stile e la forma
 # flake8 .
