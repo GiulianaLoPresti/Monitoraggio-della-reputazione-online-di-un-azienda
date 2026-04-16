@@ -48,5 +48,5 @@ jobs:
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
-        git remote add hf https://GiulianaLoPresti:$HF_TOKEN@huggingface.co/spaces/GiulianaLoPresti/Github_deploy
+        git remote add hf https://GiulianaLoPresti:$HF_TOKEN@huggingface.co/spaces/GiulianaLoPresti/monitor-sentiment-repo
         git push hf main --force

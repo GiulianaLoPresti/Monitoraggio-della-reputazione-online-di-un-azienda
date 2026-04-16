@@ -135,3 +135,9 @@ def log_performance(accuracy, f1):
 # 3. (Opzionale) Formatta il codice automaticamente
 # pip install black
 # black .
+
+
+
+# git add .github/workflows/main.yml
+# git commit -m "Aggiunta pipeline CI/CD"
+# git push origin main
