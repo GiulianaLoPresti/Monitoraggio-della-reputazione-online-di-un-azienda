@@ -4,3 +4,4 @@ datasets
 scipy
 pandas
 streamlit
+scikit-learn
