@@ -19,6 +19,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -46,6 +48,6 @@ jobs:
       run: |
         git config --global user.email "giuliana.lopresti@gmail.com"
         git config --global user.name "Giuliana1708"
-        git remote remove hf || true
-        git remote add hf "https://Giuliana1708:$HF_TOKEN@huggingface.co/spaces/Giuliana1708/monitor-sentiment-repo"
+        git remote add hf "https://Giuliana1708:${HF_TOKEN}@huggingface.co/spaces/Giuliana1708/monitor-sentiment-repo" || \
+        git remote set-url hf "https://Giuliana1708:${HF_TOKEN}@huggingface.co/spaces/Giuliana1708/monitor-sentiment-repo"
         git push hf main --force
