@@ -1,0 +1,40 @@
+# Nominalo esattamente .flake8 (attenzione al punto all'inizio, è fondamentale perché indica un file di configurazione "nascosto").
+
+[flake8]
+# Ignora alcuni errori comuni che possono essere fastidiosi all'inizio
+# E203: spazio bianco prima di ':' (non compatibile con il formatter 'Black')
+# W503: interruzione di riga prima di un operatore binario
+ignore = E501, E203, W503
+
+# Lunghezza massima della riga.
+# Lo standard PEP8 vorrebbe 79, ma oggi 88 o 100 sono molto più comuni
+max-line-length = 100
+
+# Escludi cartelle che non contengono il tuo codice sorgente
+exclude =
+    .git,
+    __pycache__,
+    env_monitoring,
+    venv,
+    E501,
+    .ipynb_checkpoints
+
+# Numero massimo di errori di complessità (opzionale)
+max-complexity = 10
+
+
+#max-line-length = 100: Spesso nei modelli di Machine Learning i nomi delle funzioni (es. AutoModelForSequenceClassification) o
+# i percorsi di Hugging Face sono molto lunghi. Alzare il limite a 100 ti evita una pioggia di segnalazioni inutili.
+# exclude: Non vuoi che Flake8 perda tempo ad analizzare la cartella .git o i file temporanei di Python (__pycache__).
+# max-complexity: Questo è un "bonus". Se scrivi una funzione con troppi if o cicli annidati, Flake8 ti avviserà che il codice
+# sta diventando troppo difficile da leggere.
+
+
+# In terminale, per indentazione e struttura:
+# flake8 FastText.py
+# F401: Modulo importato ma mai usato (es. import numpy se poi non lo usi).
+# E302: Mancano le righe vuote tra le funzioni.
+# E501: La riga è troppo lunga (oltre 79 caratteri).
+
+# Analizza solo il file principale e la tua cartella dei test
+# flake8 --ignore=E501 --max-line-length=100 FastText.py tests_FastText/
