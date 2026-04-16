@@ -44,12 +44,11 @@ jobs:
         pytest
 
     - name: Push to Hugging Face
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
-          # Rimuove eventuali residui di tentativi precedenti
-          git remote remove hf || true 
-          # Aggiunge l'indirizzo pulito (usa il tuo nome utente e nome space reali)
+          git config --global user.email "giuliana.lopresti@example.com"
+          git config --global user.name "GiulianaLoPresti"
+          git remote remove hf || true
           git remote add hf https://GiulianaLoPresti:$HF_TOKEN@huggingface.co/spaces/GiulianaLoPresti/monitor-sentiment-repo
-          # Forza il caricamento
           git push hf main --force
