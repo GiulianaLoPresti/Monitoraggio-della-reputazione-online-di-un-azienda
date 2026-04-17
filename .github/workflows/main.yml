@@ -41,13 +41,13 @@ jobs:
       run: |
         export PYTHONPATH=$PYTHONPATH:.
         pytest
-
     - name: Push to Hugging Face
       env:
-        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
-        git config --global user.email "giuliana.lopresti@gmail.com"
-        git config --global user.name "Giuliana1708"
-        git remote add hf "https://Giuliana1708:${HF_TOKEN}@huggingface.co/spaces/Giuliana1708/monitor-sentiment-repo" || \
-        git remote set-url hf "https://Giuliana1708:${HF_TOKEN}@huggingface.co/spaces/Giuliana1708/monitor-sentiment-repo"
-        git push hf main --force
+          git config --global user.email "giuliana.lopresti@gmail.com"
+          git config --global user.name "GiulianaLoPresti"
+          git remote remove hf || true
+          # NOTA: Verifica se il tuo username su HF è Giuliana1708 o GiulianaLoPresti
+          git remote add hf https://GiulianaLoPresti:$HF_TOKEN@huggingface.co/spaces/Giuliana1708/monitor-sentiment-repo
+          git push hf main --force
