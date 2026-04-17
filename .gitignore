@@ -1,12 +1,3 @@
-# Ignora l'ambiente virtuale
 Monitoraggio_reputazione/env_monitoring/
-env/
-venv/
-myenv/
-
-# Ignora i file compilati di Python
 **/__pycache__/
-*.pyc
-
-# Ignora file di sistema
-.DS_Store
+.pytest_cache/
