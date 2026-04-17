@@ -140,4 +140,5 @@ def log_performance(accuracy, f1):
 
 # git add .github/workflows/main.yml
 # git commit -m "Aggiunta pipeline CI/CD"
+# git lfs install --skip-smudge
 # git push origin main
