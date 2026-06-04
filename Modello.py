@@ -5,14 +5,12 @@ from sklearn.metrics import classification_report, accuracy_score, f1_score
 import torch
 import pandas as pd
 
-# MODEL TEST
 
 # ---------- DOWNLOAD DATI ------------
-# 1. Carica il dataset completo
-# Scarico il subset "sentiment" del dataset TweetEval, contenente tweet reali
+# 1. Caricamento del dataset completo TweetEval, contenente tweet reali
 dataset = load_dataset("tweet_eval", "sentiment")
 # Etichette: 0 -> Negativo, 1 -> Neutrale, 2 -> Positivo
-# Seleziona solo 500 esempi casuali del test set per un test rapido
+# Selezione di 500 esempi casuali del test set per un test rapido
 small_test_dataset = dataset["test"].shuffle(seed=42).select(range(500))
 print(f"Distribuzione classi nel test set: {dataset['test'].unique('label')}")
 

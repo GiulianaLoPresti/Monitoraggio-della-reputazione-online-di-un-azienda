@@ -13,7 +13,3 @@ exclude =
     venv,
     E501,
     .ipynb_checkpoints
-
-
-# In terminale, per indentazione e struttura:
-# flake8 FastText.py

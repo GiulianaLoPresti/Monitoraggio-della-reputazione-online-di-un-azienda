@@ -1,6 +1,6 @@
 FROM python:3.10-slim
 WORKDIR /app
-# Copia solo i file necessari, NON le cartelle env_monitoring!
+# Copia solo i file necessari, NON le cartelle env_monitoring
 COPY requirements.txt .
 COPY app.py .
 COPY Modello.py .

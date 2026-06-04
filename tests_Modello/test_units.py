@@ -6,8 +6,7 @@ import time
 """
 Test Unitari e di Validazione
 
-Verifica la robustezza dei dizionari di mappatura delle etichette 
-e la tenuta delle performance minime del modello Transformer.
+Verifica la robustezza dei dizionari di mappatura delle etichette e la tenuta delle performance minime del modello Transformer.
 """
 def map_label(label_id):
     mapping = {0: "Negativo", 1: "Neutrale", 2: "Positivo"}
@@ -28,8 +27,7 @@ def test_map_label_invalid():
 """
     Test di integrazione delle performance.
     
-    Verifica che il modello RoBERTa mantenga un livello di accuratezza minimo 
-    pari al 70% sul dataset di test reale 'tweet_eval'. 
+    Verifica che il modello RoBERTa mantenga un livello di accuratezza minimo pari al 70% sul dataset di test reale 'tweet_eval'. 
     """
 def test_reputation_system():
     # Caricamento e campionamento dei dati per il test di integrazione
@@ -47,9 +45,8 @@ def test_reputation_system():
 """
     Test di performance non funzionale.
     
-    Garantisce che il tempo di risposta per l'inferenza di un singolo tweet 
-    sia inferiore a 0.5 secondi. Questo assicura la scalabilità dell'applicazione 
-    in un contesto di monitoraggio social in tempo reale.
+    Garantisce che il tempo di risposta per l'inferenza di un singolo tweet sia inferiore a 0.5 secondi. 
+    Questo assicura la scalabilità dell'applicazione in un contesto di monitoraggio social in tempo reale.
     """
 
 def test_inference_speed():

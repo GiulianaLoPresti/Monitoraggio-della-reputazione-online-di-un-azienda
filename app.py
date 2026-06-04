@@ -2,7 +2,7 @@ import streamlit as st
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import torch
 
-# Titolo dell'app
+
 st.title("Monitoraggio Reputazione Online")
 st.write("Inserisci un tweet per analizzarne il sentiment.")
 
@@ -34,11 +34,10 @@ if st.button("Analizza"):
 
 
 # Deploy del modello su Hugging Face
-# Il deploy su Hugging Face rende il modello accesssibile tramite web e ne facilita l'integrazione con altre applicazioni.
+# Il deploy su Hugging Face rende il modello accesssibile tramite web garantendo la scalabilità della soluzione richiesta.
 
 # La procedura prevede i seguenti passaggi:
-# Addestramento del modello di sentiment analysis e salvataggio degli artefatti (modello, tokenizer e file di configurazione).
-# Creazione di un repository su Hugging Face.
-# Caricamento del modello tramite la libreria Transformers o tramite Git.
-# Pubblicazione del modello in modo che sia accessibile tramite API.
-# Eventuale creazione di una demo interattiva mediante Gradio e pubblicazione come Hugging Face Space.
+# Validazione: Esecuzione dei test unitari e controllo dell'accuratezza minima (>= 70%).
+# Autenticazione: Connessione sicura tramite HF_TOKEN memorizzato nei GitHub Secrets.
+# Deploy Continuo (CD): Push automatico del codice e dei file di configurazione all'Hugging Face Space.
+# Interfaccia Utente: Pubblicazione della web-app (tramite app.py) per l'analisi in tempo reale dei tweet aziendali.
