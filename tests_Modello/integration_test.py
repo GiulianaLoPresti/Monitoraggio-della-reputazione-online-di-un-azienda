@@ -1,8 +1,7 @@
 from datasets import load_dataset
 
-# Qui testiamo il "viaggio" del dato: dal file CSV alla generazione del report finale.
-# È un test più lento perché coinvolge diverse parti del sistema.
-from FastText import run_sentiment_pipeline, evaluate_results
+
+from Modello import run_sentiment_pipeline, evaluate_results
 
 
 def test_pipeline_integration():

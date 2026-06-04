@@ -3,7 +3,7 @@ WORKDIR /app
 # Copia solo i file necessari, NON le cartelle env_monitoring!
 COPY requirements.txt .
 COPY app.py .
-COPY FastText.py .
+COPY Modello.py .
 COPY README.md .
 RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 7860

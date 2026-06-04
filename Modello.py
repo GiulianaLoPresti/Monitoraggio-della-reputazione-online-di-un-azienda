@@ -23,15 +23,36 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 
-# Carica e restituisce modello e tokenizer.
 def get_model_and_tokenizer():
+    """
+    Inizializza e restituisce il modello Transformer pre-addestrato e il relativo tokenizer.
+    
+    Scarica i pesi dal repository ufficiale Hugging Face configurato nella costante model.
+    
+    Returns:
+        tuple: (AutoModelForSequenceClassification, AutoTokenizer) pronti per l'inferenza.
+    """
     tokenizer = AutoTokenizer.from_pretrained(MODEL)
     model = AutoModelForSequenceClassification.from_pretrained(MODEL)
     return model, tokenizer
 
 
-# Funzione interna per processare i batch di testo
+
 def predict_sentiment_batch(batch, model, tokenizer):
+    """
+    Elabora un batch di testi estratti dal dataset ed esegue l'inferenza con RoBERTa.
+    
+    Gestisce la tokenizzazione con troncamento a 64 token per ottimizzare la memoria 
+    e applica l'operatore argmax sui logit per estrarre la classe predetta.
+
+    Args:
+        batch (dict): Un sottoinsieme del dataset contenente la chiave "text".
+        model: Il modello RoBERTa caricato.
+        tokenizer: Il tokenizer associato al modello.
+
+    Returns:
+        dict: Un dizionario contenente la lista delle label predette ("predicted_label").
+    """
     inputs = tokenizer(batch["text"], padding=True, truncation=True,
                        max_length=64, return_tensors="pt")
     with torch.no_grad():
@@ -39,11 +60,22 @@ def predict_sentiment_batch(batch, model, tokenizer):
     predictions = torch.argmax(outputs.logits, dim=-1).cpu().numpy()
     return {"predicted_label": predictions}
 
-# Modularizzazione principale:
-# Prende un dataset, carica il modello, esegue le predizioni e restituisce i risultati.
 
 
 def run_sentiment_pipeline(dataset_split, num_examples=500):
+    """
+    Orchestra l'intera pipeline di analisi del sentiment su uno split di dataset.
+    
+    Seleziona un sottoinsieme casuale di dati per velocizzare l'elaborazione,
+    inizializza i componenti del modello ed esegue la mappatura parallela delle predizioni.
+
+    Args:
+        dataset_split (datasets.Dataset): Lo split del dataset (es. train, validation, test).
+        num_examples (int, optional): Numero di record da analizzare. Default a 500.
+
+    Returns:
+        datasets.Dataset: Il dataset di Hugging Face arricchito con la colonna 'predicted_label'.
+    """
 
     # 1. Preparazione dati
     small_ds = dataset_split.shuffle(seed=42).select(range(num_examples))
@@ -52,7 +84,6 @@ def run_sentiment_pipeline(dataset_split, num_examples=500):
     model, tokenizer = get_model_and_tokenizer()
 
     # 3. Inferenza
-    # Usiamo una lambda per passare model e tokenizer alla funzione map
     results = small_ds.map(
         lambda x: predict_sentiment_batch(x, model, tokenizer),
         batched=True,
@@ -60,12 +91,22 @@ def run_sentiment_pipeline(dataset_split, num_examples=500):
     )
 
     return results
-# Usa questo nel .map() - uso un sottocampione del test set, per velocizzare il fit
-# results = small_test_dataset.map(predict_sentiment, batched=True, batch_size=8)
 
 
-# Calcola e stampa le metriche dai risultati ottenuti
+
 def evaluate_results(results):
+    """
+    Calcola, stampa a video e restituisce le metriche di accuratezza e F1-Score.
+    
+    Genera un report di classificazione dettagliato dividendo le performance
+    sulle tre macro-aree di sentiment aziendale: Negativo, Neutrale e Positivo.
+
+    Args:
+        results (datasets.Dataset): Il dataset elaborato contenente 'label' e 'predicted_label'.
+
+    Returns:
+        tuple: (accuracy_score, f1_score) come valori float.
+    """
 
     y_true = results["label"]
     y_pred = results["predicted_label"]
@@ -79,7 +120,7 @@ def evaluate_results(results):
     return acc, f1
 
 
-# --- PUNTO DI INGRESSO (Per l'esecuzione normale) ---
+
 if __name__ == "__main__":
     print("Avvio Pipeline di Monitoraggio...")
     full_dataset = load_dataset("tweet_eval", "sentiment")
@@ -99,7 +140,7 @@ def load_and_predict(input_path, output_path):
     from datasets import Dataset
     ds = Dataset.from_pandas(df)
 
-    # Esegue la pipeline (modificando leggermente run_sentiment_pipeline per accettare ds)
+    # Esegue la pipeline
     model, tokenizer = get_model_and_tokenizer()
     results = ds.map(lambda x: predict_sentiment_batch(x, model, tokenizer), batched=True)
 
@@ -107,38 +148,18 @@ def load_and_predict(input_path, output_path):
     results.to_csv(output_path)
     print(f"Risultati salvati in: {output_path}")
 
+
+
 # Monitoraggio
-
-
 def test_reputation_system():
-    # Testiamo solo 5 tweet per fare un controllo rapido di "salute"
+    # Test solo su 5 tweet per fare un controllo rapido di "salute"
     results = run_sentiment_pipeline(small_test_dataset, num_examples=5)
     acc, f1 = evaluate_results(results)
 
-    assert acc >= 0  # Verifichiamo che la funzione restituisca un numero valido
+    assert acc >= 0  # Verifica che la funzione restituisca un numero valido
 
 
 def log_performance(accuracy, f1):
     # Salva le performance in un file CSV per monitorare il calo nel tempo
     with open("monitoring_log.csv", "a") as f:
         f.write(f"{pd.Timestamp.now()},{accuracy},{f1}\n")
-
-
-# Esecuzione del test, da terminale: pytest
-
-# 1. Controlla lo stile e la forma
-# flake8 .
-
-# 2. Esegui i test unitari e di integrazione (mostrando i print con -s)
-# pytest -s
-
-# 3. (Opzionale) Formatta il codice automaticamente
-# pip install black
-# black .
-
-
-
-# git add .github/workflows/main.yml
-# git commit -m "Aggiunta pipeline CI/CD"
-# git lfs install --skip-smudge
-# git push origin main
