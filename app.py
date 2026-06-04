@@ -6,7 +6,7 @@ import torch
 st.title("Monitoraggio Reputazione Online")
 st.write("Inserisci un tweet per analizzarne il sentiment.")
 
-# Caricamento Modello (usiamo il caching per non ricaricarlo ogni volta)
+# Caricamento Modello 
 @st.cache_resource
 def load_model():
     model_name = "cardiffnlp/twitter-roberta-base-sentiment-latest"
@@ -27,7 +27,18 @@ if st.button("Analizza"):
     prediction = torch.argmax(outputs.logits, dim=-1).item()
 
     # Mappa delle etichette
-    labels = {0: "Negativo 😡", 1: "Neutrale 😐", 2: "Positivo 😊"}
+    labels = {0: "Negativo", 1: "Neutrale", 2: "Positivo"}
     result = labels[prediction]
 
     st.subheader(f"Risultato: {result}")
+
+
+# Deploy del modello su Hugging Face
+# Il deploy su Hugging Face rende il modello accesssibile tramite web e ne facilita l'integrazione con altre applicazioni.
+
+# La procedura prevede i seguenti passaggi:
+# Addestramento del modello di sentiment analysis e salvataggio degli artefatti (modello, tokenizer e file di configurazione).
+# Creazione di un repository su Hugging Face.
+# Caricamento del modello tramite la libreria Transformers o tramite Git.
+# Pubblicazione del modello in modo che sia accessibile tramite API.
+# Eventuale creazione di una demo interattiva mediante Gradio e pubblicazione come Hugging Face Space.

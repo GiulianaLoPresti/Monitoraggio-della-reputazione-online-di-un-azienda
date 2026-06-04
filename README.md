@@ -6,5 +6,3 @@ colorTo: azure
 sdk: docker
 pinned: false
 ---
-
-
